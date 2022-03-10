@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 
 
 
+
 class OccupationSerializers(serializers.ModelSerializer):
     class Meta:
         model = Occupation
@@ -40,6 +41,16 @@ class UserSerializers(serializers.ModelSerializer):
             "last_name",
             "username",
             "email",
+        )
+
+class TokenSerializers(serializers.ModelSerializer):
+    user = UserSerializers()
+    class Meta:
+        model = Token
+        fields = (
+            "user",
+            "user_id",
+            "key",
         )
 
 

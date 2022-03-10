@@ -10,12 +10,45 @@ from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .models import Profile,Occupation,Vehicle,TargetArea,VehicleType,State,UseVehicleType
 from .serializer import ProfileSerializers,OccupationSerializers,VehicleSerializers,\
-    TargetAreaSerializers,VehicleTypeSerializers,StateSerializers,UseVehicleTypeSerializers
+    TargetAreaSerializers,VehicleTypeSerializers,StateSerializers,UseVehicleTypeSerializers,\
+    TokenSerializers
 from django.contrib.auth.models import User
+
+
+@api_view(['GET','PUT'])
+def token_details(request,id):
+    try:
+        token = Token.objects.get(user_id=id)
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = TokenSerializers(token)
+        return Response(serializer.data)
+    if request.method == 'PUT':
+        serializer = TokenSerializers(token,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
 ############################## profile######################################################
+
+@api_view(['GET',])
+def profile_detail(request,profile_slug):
+    try:
+        profile = Profile.objects.get(profile_slug=profile_slug)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = ProfileSerializers(profile)
+        return Response(serializer.data)
+
+
+
 # @authentication_classes([authentication.TokenAuthentication])
 # @permission_classes([permissions.IsAuthenticated])
 class ProfileDetails(APIView):
@@ -30,10 +63,7 @@ class ProfileDetails(APIView):
         serializer = ProfileSerializers(profile)
         token, created = Token.objects.get_or_create(user=request.user)
 
-        return Response({
-            "data":serializer.data,
-            "token":token.key
-        })
+        return Response(serializer.data)
 
 
 @api_view(['PUT',])
@@ -50,10 +80,7 @@ def update_profile(request,profile_slug):
         token, created = Token.objects.get_or_create(user=request.user)
         if serializer.is_valid():
             serializer.save()
-            return Response({
-            "data":serializer.data,
-            "token":token.key,
-        }, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -65,10 +92,7 @@ def create_profile(request):
     token, created = Token.objects.get_or_create(user=request.user)
     if serializer.is_valid():
         serializer.save()
-        return Response({
-            "data":serializer.data,
-            "token":token.key,
-        }, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

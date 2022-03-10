@@ -72,6 +72,7 @@ class UseVehicleType(models.Model):
 
 
 def create_profile(sender, **kwarg):
+    print("====================================================")
     if kwarg['created']:
         Profile.objects.create(user=kwarg['instance'])
 
