@@ -13,6 +13,8 @@ from .serializer import ProfileSerializers,OccupationSerializers,VehicleSerializ
     TargetAreaSerializers,VehicleTypeSerializers,StateSerializers,UseVehicleTypeSerializers
 from django.contrib.auth.models import User
 
+
+
 ############################## profile######################################################
 # @authentication_classes([authentication.TokenAuthentication])
 # @permission_classes([permissions.IsAuthenticated])
@@ -27,6 +29,7 @@ class ProfileDetails(APIView):
         profile = self.get_object(profile_slug)
         serializer = ProfileSerializers(profile)
         token, created = Token.objects.get_or_create(user=request.user)
+
         return Response({
             "data":serializer.data,
             "token":token.key
@@ -44,10 +47,13 @@ def update_profile(request,profile_slug):
 
     if request.method == "PUT":
         serializer = ProfileSerializers(profile,data=request.data)
-
+        token, created = Token.objects.get_or_create(user=request.user)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({
+            "data":serializer.data,
+            "token":token.key,
+        }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 

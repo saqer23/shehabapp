@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Occupation,State,TargetArea,Profile,Vehicle,VehicleType,UseVehicleType
 from django.contrib.auth.models import User
-
+from rest_framework.authtoken.models import Token
 
 
 
@@ -31,7 +31,20 @@ class TargetAreaSerializers(serializers.ModelSerializer):
         )
 
 
+class UserSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+        )
+
+
 class ProfileSerializers(serializers.ModelSerializer):
+    user = UserSerializers()
     class Meta:
         model = Profile
         fields = (

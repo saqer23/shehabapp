@@ -4,6 +4,7 @@ from PIL import Image
 from django.core.files import File
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.db.models.signals import post_save
 
 class Occupation(models.Model):
     occupation_name = models.CharField(max_length=15)
@@ -27,7 +28,7 @@ class TargetArea(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
-    occupation = models.ForeignKey(Occupation,on_delete=models.CASCADE,related_name='Profile')
+    occupation = models.ForeignKey(Occupation,on_delete=models.CASCADE,related_name='Profile',null=True,blank=True)
     img_profile = models.ImageField(upload_to='profile_img/',null=True,blank=True)
     profile_slug = models.SlugField(blank=True,null=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE,null=True,blank=True)
@@ -66,3 +67,13 @@ class VehicleType(models.Model):
 class UseVehicleType(models.Model):
     vehicle_type = models.ForeignKey(VehicleType,on_delete=models.CASCADE,related_name='use_vehicle_type')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='use_vehicle_type')
+
+
+
+
+def create_profile(sender, **kwarg):
+    if kwarg['created']:
+        Profile.objects.create(user=kwarg['instance'])
+
+
+post_save.connect(create_profile, sender=User)
