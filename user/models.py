@@ -1,3 +1,4 @@
+from rest_framework.authtoken.models import Token
 from django.db import models
 from io import BytesIO
 from PIL import Image
@@ -74,6 +75,7 @@ class UseVehicleType(models.Model):
 def create_profile(sender, **kwarg):
     print("====================================================")
     if kwarg['created']:
+        token,create = Token.objects.get_or_create(user=kwarg['instance'])
         Profile.objects.create(user=kwarg['instance'])
 
 
