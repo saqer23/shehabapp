@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from user.serializer import UserSerializers
 from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
 
 
@@ -21,6 +22,7 @@ class LocationSerializer(serializers.ModelSerializer):
         )
 
 class StoreSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
     class Meta:
         model = Store
         fields = (
@@ -34,6 +36,8 @@ class StoreSerializer(serializers.ModelSerializer):
         )
 
 class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerializers()
+    store = StoreSerializer()
     class Meta:
         model = Order
         fields = (
@@ -49,6 +53,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
+    order = OrderSerializer()
+    user_delivery_id = UserSerializers()
     class Meta:
         model = Offer
         fields = (

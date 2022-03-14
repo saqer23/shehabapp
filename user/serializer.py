@@ -55,7 +55,8 @@ class TokenSerializers(serializers.ModelSerializer):
 
 
 class ProfileSerializers(serializers.ModelSerializer):
-    user = UserSerializers()
+    # user = UserSerializers()
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=UserSerializers())
     class Meta:
         model = Profile
         fields = (
@@ -66,6 +67,7 @@ class ProfileSerializers(serializers.ModelSerializer):
             "profile_slug",
             "state",
         )
+        read_only_fields = ['user']
 
 
 class VehicleSerializers(serializers.ModelSerializer):

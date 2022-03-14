@@ -77,7 +77,7 @@ def update_profile(request,profile_slug):
 
     if request.method == "PUT":
         serializer = ProfileSerializers(profile,data=request.data)
-        token, created = Token.objects.get_or_create(user=request.user)
+        # token, created = Token.objects.get_or_create(user=request.user)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
