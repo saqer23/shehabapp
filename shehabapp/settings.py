@@ -43,11 +43,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
-
+    'channels',
     #project's apps
 
     'user',
     'order',
+    'chat',
 ]
 
 
@@ -153,3 +154,6 @@ SESSION_COOKIE_SAMESITE = 'None'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+ASGI_APPLICATION = "shehabapp.routing.application"
