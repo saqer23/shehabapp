@@ -2,7 +2,7 @@ from django.db.models import Q
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import permissions
+from rest_framework import permissions,authentication
 
 from django.contrib.auth.models import User
 
@@ -12,7 +12,7 @@ from .serializers import (RoomSerializers, ChatSerializers, ChatPostSerializers,
 
 class Rooms(APIView):
     """Chat rooms"""
-    permission_classes = [permissions.IsAuthenticated, ]
+    # permission_classes = [permissions.IsAuthenticated, ]
 
     def get(self, request):
         rooms = Room.objects.filter(Q(creator=request.user) | Q(invited=request.user))
@@ -26,7 +26,7 @@ class Rooms(APIView):
 
 class Dialog(APIView):
     """Chat dialog, message"""
-    permission_classes = [permissions.IsAuthenticated, ]
+    # permission_classes = [permissions.IsAuthenticated, ]
     # permission_classes = [permissions.AllowAny, ]
 
     def get(self, request,id):
