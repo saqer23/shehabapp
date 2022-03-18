@@ -3,14 +3,7 @@ from user.serializer import UserSerializers
 from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = (
-            "id",
-            "category_name",
-            "category_slug",
-        )
+
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -22,7 +15,6 @@ class LocationSerializer(serializers.ModelSerializer):
         )
 
 class StoreSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
     class Meta:
         model = Store
         fields = (
@@ -35,7 +27,37 @@ class StoreSerializer(serializers.ModelSerializer):
             "store_slug",
         )
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    store = StoreSerializer(many=True)
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "category_name",
+            "category_slug",
+            "store",
+        )
+
+
 class OrderSerializer(serializers.ModelSerializer):
+    # user = UserSerializers()
+    # store = StoreSerializer()
+    class Meta:
+        model = Order
+        fields = (
+            "id",
+            "store",
+            "user",
+            "order_details",
+            "active",
+            "customer_location",
+            "shipment_location",
+            "pay",
+        )
+
+
+class OrderViewSerializer(serializers.ModelSerializer):
     user = UserSerializers()
     store = StoreSerializer()
     class Meta:
@@ -53,6 +75,18 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OfferSerializer(serializers.ModelSerializer):
+    # order = OrderSerializer()
+    # user_delivery_id = UserSerializers()
+    class Meta:
+        model = Offer
+        fields = (
+            "id",
+            "order",
+            "user_delivery_id",
+            "price",
+        )
+
+class OfferViewSerializer(serializers.ModelSerializer):
     order = OrderSerializer()
     user_delivery_id = UserSerializers()
     class Meta:

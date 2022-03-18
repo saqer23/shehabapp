@@ -11,9 +11,9 @@ urlpatterns = [
     path('location/<int:id>',views.location_details),
     path('create_location', views.create_location),
 
-    path('store/',views.store_list),
-    path('store/<slug:store_slug>/',views.store_details),
-    path('create_store/',views.create_store),
+    path('store',views.store_list),
+    path('store/<slug:store_slug>',views.store_details),
+    path('create_store',views.create_store),
 
     path('order/', views.order_list),
     path('order/<int:id>/', views.order_details),

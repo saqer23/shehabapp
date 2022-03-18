@@ -2,7 +2,7 @@ from django.db.models import Q
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import permissions,authentication
+from rest_framework import permissions, authentication, status
 
 from django.contrib.auth.models import User
 
@@ -20,8 +20,13 @@ class Rooms(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        Room.objects.create(creator=request.user)
-        return Response(status=201)
+        serializer = RoomSerializers(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        # Room.objects.create(creator=request.user)
+            print(request.user)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Dialog(APIView):

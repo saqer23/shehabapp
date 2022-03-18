@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@%*=md_vrg$bxnq@4dx11#p%gsw03k4=0tuot9waf$tvlj1q4&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*",]
 
 
 # Application definition
@@ -43,12 +43,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
-    'channels',
+    # 'channels',
     #project's apps
 
+
+    'chats',
     'user',
     'order',
-    'chat',
+    # 'chat',
 ]
 
 
@@ -156,4 +158,4 @@ SESSION_COOKIE_SAMESITE = 'None'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-ASGI_APPLICATION = "shehabapp.routing.application"
+# ASGI_APPLICATION = "shehabapp.routing.application"

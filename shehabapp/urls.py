@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/v1/',include('djoser.urls.authtoken')),
     path('api/v1/',include('user.urls')),
     path('api/v1/',include('order.urls')),
-    path('api/v1/',include('chat.urls')),
+    path('api/v1/',include('chats.urls')),
+    # path('api/v1/',include('chat.urls')),
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

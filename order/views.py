@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
-from .serializer import CategorySerializer,LocationSerializer,StoreSerializer,OrderSerializer,OfferSerializer,BillSerializer,OrderActiveSerializer
+from .serializer import CategorySerializer,LocationSerializer,StoreSerializer,OrderSerializer,OfferSerializer,\
+    BillSerializer,OrderActiveSerializer,OrderViewSerializer,OfferViewSerializer
 from django.contrib.auth.models import User
 
 
@@ -122,7 +123,7 @@ def create_store(request):
 @api_view(['GET'])
 def order_list(request):
     order = Order.objects.all()
-    serializer = OrderSerializer(order,many=True)
+    serializer = OrderViewSerializer(order,many=True)
     return Response(serializer.data)
 
 
@@ -133,7 +134,7 @@ def order_details(request,id):
     except Order.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serializer = OrderSerializer(order)
+        serializer = OrderViewSerializer(order)
         return Response(serializer.data)
     if request.method == 'PUT':
         serializer = OrderSerializer(order,data=request.data)
@@ -156,7 +157,7 @@ def create_order(request):
 @api_view(['GET'])
 def offer_list(request):
     offer = Offer.objects.all()
-    serializer = OfferSerializer(offer,many=True)
+    serializer = OfferViewSerializer(offer,many=True)
     return Response(serializer.data)
 
 
@@ -167,7 +168,7 @@ def offer_details(request,id):
     except Offer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serializer = OfferSerializer(offer)
+        serializer = OfferViewSerializer(offer)
         return Response(serializer.data)
     if request.method == 'PUT':
         serializer = OfferSerializer(offer,data=request.data)

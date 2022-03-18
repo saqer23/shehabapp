@@ -11,18 +11,19 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from .models import Profile,Occupation,Vehicle,TargetArea,VehicleType,State,UseVehicleType
 from .serializer import ProfileSerializers,OccupationSerializers,VehicleSerializers,\
     TargetAreaSerializers,VehicleTypeSerializers,StateSerializers,UseVehicleTypeSerializers,\
-    TokenSerializers
+    TokenSerializers,ProfileViewSerializers
 from django.contrib.auth.models import User
 
 
 @api_view(['GET','PUT'])
-def token_details(request,id):
+def token_details(request):
     try:
-        token = Token.objects.get(user_id=id)
+        token = Token.objects.get(key=request.headers.get("Authorization").split(" ")[1])
     except Token.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = TokenSerializers(token)
+        print("=================<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>===============================",serializer.data)
         return Response(serializer.data)
     if request.method == 'PUT':
         serializer = TokenSerializers(token,data=request.data)
@@ -44,7 +45,7 @@ def profile_detail(request,profile_slug):
     except Profile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serializer = ProfileSerializers(profile)
+        serializer = ProfileViewSerializers(profile)
         return Response(serializer.data)
 
 

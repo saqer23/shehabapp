@@ -5,7 +5,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
 
-    path('user/<int:id>', views.token_details),
+    path('user', views.token_details),
 
     path('profile/<slug:profile_slug>',views.profile_detail),
     path('update_profile/<slug:profile_slug>',views.update_profile),

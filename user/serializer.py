@@ -56,7 +56,7 @@ class TokenSerializers(serializers.ModelSerializer):
 
 class ProfileSerializers(serializers.ModelSerializer):
     # user = UserSerializers()
-    user = serializers.PrimaryKeyRelatedField(read_only=True, default=UserSerializers())
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default= UserSerializers())
     class Meta:
         model = Profile
         fields = (
@@ -67,7 +67,21 @@ class ProfileSerializers(serializers.ModelSerializer):
             "profile_slug",
             "state",
         )
-        read_only_fields = ['user']
+        # read_only_fields = ['user']
+
+class ProfileViewSerializers(serializers.ModelSerializer):
+    user = UserSerializers()
+    # user = serializers.PrimaryKeyRelatedField(read_only=True, default= UserSerializers())
+    class Meta:
+        model = Profile
+        fields = (
+            "id",
+            "user",
+            "occupation",
+            "img_profile",
+            "profile_slug",
+            "state",
+        )
 
 
 class VehicleSerializers(serializers.ModelSerializer):
