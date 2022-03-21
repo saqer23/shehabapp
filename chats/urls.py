@@ -4,5 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path('meesages',views.MessageAPIView.as_view())
+    path('messages/<int:id>',views.MessageAPIView.as_view()),
+    path('create_room',views.create_room),
+    path('rooms',views.Rooms.as_view()),
 ]

@@ -71,6 +71,7 @@ class ProfileSerializers(serializers.ModelSerializer):
 
 class ProfileViewSerializers(serializers.ModelSerializer):
     user = UserSerializers()
+    occupation = OccupationSerializers()
     # user = serializers.PrimaryKeyRelatedField(read_only=True, default= UserSerializers())
     class Meta:
         model = Profile

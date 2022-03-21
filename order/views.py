@@ -21,9 +21,9 @@ def category_list(request):
 
 
 @api_view(['GET','PUT'])
-def category_details(request,category_slug):
+def category_details(request,id):
     try:
-        category = Category.objects.get(category_slug=category_slug)
+        category = Category.objects.get(id=id)
     except Category.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -92,9 +92,9 @@ def store_list(request):
 
 
 @api_view(['GET','PUT'])
-def store_details(request,store_slug):
+def store_details(request,id):
     try:
-        store = Store.objects.get(store_slug=store_slug)
+        store = Store.objects.get(id=id)
     except Store.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
