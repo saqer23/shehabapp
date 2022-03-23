@@ -8,7 +8,7 @@ from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
 from .serializer import CategorySerializer,LocationSerializer,StoreSerializer,OrderSerializer,OfferSerializer,\
-    BillSerializer,OrderActiveSerializer,OrderViewSerializer,OfferViewSerializer
+    BillSerializer,OrderActiveSerializer,OrderViewSerializer,OfferViewSerializer,OrderActiveViewSerializer
 from django.contrib.auth.models import User
 
 
@@ -156,7 +156,7 @@ def create_order(request):
 
 @api_view(['GET'])
 def offer_list(request):
-    offer = Offer.objects.all()
+    offer = Offer.objects.filter(order__user=request.user)
     serializer = OfferViewSerializer(offer,many=True)
     return Response(serializer.data)
 
@@ -228,8 +228,8 @@ def create_bill(request):
 
 @api_view(['GET'])
 def order_active_list(request):
-    order_active = OrderActive.objects.all()
-    serializer = OrderActiveSerializer(order_active,many=True)
+    order_active = OrderActive.objects.filter(Q(order__user=request.user) | Q(offer__user_delivery_id=request.user))
+    serializer = OrderActiveViewSerializer(order_active,many=True)
     return Response(serializer.data)
 
 

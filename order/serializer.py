@@ -118,3 +118,16 @@ class OrderActiveSerializer(serializers.ModelSerializer):
             "offer",
             "bill",
         )
+
+
+class OrderActiveViewSerializer(serializers.ModelSerializer):
+    order = OrderViewSerializer()
+    offer = OfferViewSerializer()
+    class Meta:
+        model = OrderActive
+        fields = (
+            "id",
+            "order",
+            "offer",
+            "bill",
+        )
