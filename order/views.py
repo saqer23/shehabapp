@@ -155,9 +155,15 @@ def create_order(request):
 ############################################ Offer #########################################
 
 @api_view(['GET'])
-def offer_list(request):
-    offer = Offer.objects.filter(order__user=request.user)
+# @authentication_classes([authentication.TokenAuthentication])
+# @permission_classes([permissions.IsAuthenticated])
+def offer_list(request, user_id):
+    user = User.objects.get(id = user_id    )
+    offer = Offer.objects.filter(Q(order__user=user) | Q(user_delivery_id=user))
+    print("==========",user)
+    print("==========",offer)
     serializer = OfferViewSerializer(offer,many=True)
+    print("===========================",serializer.data)
     return Response(serializer.data)
 
 
@@ -240,7 +246,7 @@ def order_active_details(request,id):
     except OrderActive.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        serializer = OrderActiveSerializer(order_active)
+        serializer = OrderActiveViewSerializer(order_active)
         return Response(serializer.data)
     if request.method == 'PUT':
         serializer = OrderActiveSerializer(order_active,data=request.data)

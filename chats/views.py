@@ -5,19 +5,20 @@ from rest_framework.views import APIView
 from .pusher import pusher_client
 from rest_framework.response import Response
 from .models import Chat,Room
-from .serializers import ChatPostSerializers,RoomSerializer,ChatSerializers,ChatPostsSerializers
+from .serializers import ChatPostSerializers,RoomSerializer,ChatSerializers,ChatPostsSerializers,RoomViewSerializer
 from rest_framework.decorators import api_view
 from django.db.models import Q
-
+from django.contrib.auth.models import User
 
 
 class Rooms(APIView):
     """Chat rooms"""
     # permission_classes = [permissions.IsAuthenticated, ]
 
-    def get(self, request):
-        room = Room.objects.filter(Q(creator=request.user) | Q(invited=request.user))
-        serializer = RoomSerializer(room, many=True)
+    def get(self, request,user_id):
+        user = User.objects.get(id=user_id)
+        room = Room.objects.filter(Q(creator=user) | Q(invited=user))
+        serializer = RoomViewSerializer(room, many=True)
         return Response(serializer.data)
 
 

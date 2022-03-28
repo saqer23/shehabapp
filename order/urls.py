@@ -19,7 +19,7 @@ urlpatterns = [
     path('order/<int:id>', views.order_details),
     path('create_order', views.create_order),
 
-    path('offer/', views.offer_list),
+    path('offers/<int:user_id>/', views.offer_list),
     path('offer/<int:id>', views.offer_details),
     path('create_offer/', views.create_offer),
 

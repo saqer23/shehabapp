@@ -6,7 +6,7 @@ from .models import Chat,Room
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
     """غرف الدردشة"""
-    list_display = ("creator", "invited_user", "date")
+    list_display = ("id","creator", "invited_user", "date")
 
     def invited_user(self, obj):
         return "\n".join([user.username for user in obj.invited.all()])
