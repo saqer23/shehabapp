@@ -49,6 +49,14 @@ class Bill(models.Model):
     bill_text = models.TextField()
     bill_img = models.ImageField(upload_to='bills/',null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    order = models.IntegerField(blank=True,null=True)
+
+class Bills(models.Model):
+    bill_text = models.TextField()
+    bill_img = models.ImageField(upload_to='bills/',null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    order = models.OneToOneField(Order,on_delete=models.CASCADE)
+
 
 class OrderActive(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name='order_active')

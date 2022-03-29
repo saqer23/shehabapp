@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
+from .models import Category,Location,Store,Order,Offer,Bills,OrderActive
 from .serializer import CategorySerializer,LocationSerializer,StoreSerializer,OrderSerializer,OfferSerializer,\
     BillSerializer,OrderActiveSerializer,OrderViewSerializer,OfferViewSerializer,OrderActiveViewSerializer
 from django.contrib.auth.models import User
@@ -198,7 +198,7 @@ def create_offer(request):
 
 @api_view(['GET'])
 def bill_list(request):
-    bill = Bill.objects.all()
+    bill = Bills.objects.all()
     serializer = BillSerializer(bill,many=True)
     return Response(serializer.data)
 
@@ -206,8 +206,8 @@ def bill_list(request):
 @api_view(['GET','PUT'])
 def bill_details(request,id):
     try:
-        bill = Bill.objects.get(id=id)
-    except Bill.DoesNotExist:
+        bill = Bills.objects.get(id=id)
+    except Bills.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = BillSerializer(bill)
@@ -223,7 +223,6 @@ def bill_details(request,id):
 @api_view(['POST'])
 def create_bill(request):
     serializer = BillSerializer(data=request.data)
-
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

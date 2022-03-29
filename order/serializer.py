@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from user.serializer import UserSerializers
-from .models import Category,Location,Store,Order,Offer,Bill,OrderActive
+from .models import Category,Location,Store,Order,Offer,Bills,OrderActive
 
 
 
@@ -100,11 +100,12 @@ class OfferViewSerializer(serializers.ModelSerializer):
 
 class BillSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Bill
+        model = Bills
         fields = (
             "id",
             "bill_text",
             "bill_img",
+            "order",
         )
 
 

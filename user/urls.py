@@ -8,8 +8,8 @@ urlpatterns = [
     path('edit_user/<int:id>',views.user_detail),
     path('user', views.token_details),
 
-    path('profile/<slug:profile_slug>',views.profile_detail),
-    path('update_profile/<slug:profile_slug>',views.update_profile),
+    path('profile/<int:user_id>',views.profile_detail),
+    path('update_profile/<int:user_id>',views.update_profile),
     path('create_profile',views.create_profile),
 
     path('occupations',views.occupation_list),

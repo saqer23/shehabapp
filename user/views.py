@@ -59,9 +59,9 @@ def token_details(request):
 ############################## profile######################################################
 
 @api_view(['GET',])
-def profile_detail(request,profile_slug):
+def profile_detail(request,user_id):
     try:
-        profile = Profile.objects.get(profile_slug=profile_slug)
+        profile = Profile.objects.get(user=user_id)
     except Profile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
@@ -90,9 +90,9 @@ class ProfileDetails(APIView):
 @api_view(['PUT',])
 # @authentication_classes([authentication.TokenAuthentication])
 # @permission_classes([permissions.IsAuthenticated])
-def update_profile(request,profile_slug):
+def update_profile(request,user_id):
     try:
-        profile = Profile.objects.get(profile_slug=profile_slug)
+        profile = Profile.objects.get(user=user_id)
     except Profile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
