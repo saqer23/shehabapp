@@ -73,9 +73,9 @@ def profile_detail(request,user_id):
 # @authentication_classes([authentication.TokenAuthentication])
 # @permission_classes([permissions.IsAuthenticated])
 class ProfileDetails(APIView):
-    def get_object(self,profile_slug):
+    def get_object(self,user_id):
         try:
-            return Profile.objects.get(profile_slug=profile_slug)
+            return Profile.objects.get(user=user_id)
         except Profile.DoesNotExist:
             raise Http404
 
