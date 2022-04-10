@@ -38,7 +38,7 @@ def user_detail(request, id):
 def token_details(request):
     # print("============================", request.headers.get("Cookie").split()[1])
     try:
-        token = Token.objects.get(Q(key=request.headers.get("Authorization").split(" ")[1]) | Q(key= request.token))
+        token = Token.objects.get(key=request.headers.get("Authorization").split(" ")[1])
     except Token.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
